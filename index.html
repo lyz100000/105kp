@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>105看片</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #0d1b2a);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 顶部导航栏 */
+        header {
+            background: rgba(13, 27, 42, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+            color: #4cc9f0;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* 标题区域 */
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #f72585, #7209b7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+            color: #b8c1ec;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+        }
+        
+        /* 内容区域 */
+        .content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title i {
+            font-size: 24px;
+            color: #4cc9f0;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+            color: #e0e0e0;
+            font-weight: 600;
+        }
+        
+        /* 人员卡片 */
+        .person {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            transition: background 0.3s ease;
+        }
+        
+        .person:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .person-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4cc9f0;
+        }
+        
+        .person-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #f8f9fa;
+        }
+        
+        .person-info p {
+            color: #b8c1ec;
+            font-size: 0.95rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8d99ae;
+            font-size: 0.95rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <i class="fas fa-film logo-icon"></i>
+                    <span class="logo-text">105看片</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>欢迎访问《105看片》网站</h1>
+            <p>您将看到有关105和宿管的：***、***、****、****和*****等内容</p>
+        </section>
+        
+        <div class="content">
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-star"></i>
+                    <h2>主演</h2>
+                </div>
+                
+                <div class="person">
+                    <img src="photo/43040720100721005X.jpg" class="person-img">
+                    <div class="person-info">
+                        <h3>刘健强</h3>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-edit"></i>
+                    <h2>责任编辑</h2>
+                </div>
+                
+                <div class="person">
+                    <img src="photo/43042120100430017X.jpg" class="person-img">
+                    <div class="person-info">
+                        <h3>刘子铭</h3>
+                    </div>
+                </div>
+
+                <div class="person">
+                    <img src="" class="person-img">
+                    <div class="person-info">
+                        <h3>刘奇</h3>
+                    </div>
+                </div>
+
+                <div class="person">
+                    <img src="" class="person-img">
+                    <div class="person-info">
+                        <h3>刘拥祺</h3>
+                    </div>
+                </div>
+
+                <div class="person">
+                    <img src="" class="person-img">
+                    <div class="person-info">
+                        <h3>柳辰夕</h3>
+                    </div>
+                </div>
+                
+                <div class="person">
+                    <img src="" class="person-img">
+                    <div class="person-info">
+                        <h3>刘昶</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <div class="section-title">
+                    <i class="fas fa-user-tie"></i>
+                    <h2>监制团队</h2>
+                </div>
+                
+                <div class="person">
+                    <img src="" class="person-img">
+                    <div class="person-info">
+                        <h3>李远卓</h3>
+                    </div>
+                </div>
+                </div>
+                
+
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Copyright 2025 by LYZ&105</p>
+        </footer>
+    </div>
+</body>
+</html>
