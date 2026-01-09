@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>105看片</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+        
+        /* 顶部导航栏 */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem;
+            background-color: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .logo-icon {
+            color: #3b82f6;
+            font-size: 1.8rem;
+        }
+        
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .home-btn {
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        .home-btn:hover {
+            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* 主要内容区 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        /* 媒体网格 */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .media-card {
+            background-color: #1e293b;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #334155;
+            cursor: pointer;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .media-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+            border-color: #3b82f6;
+        }
+        
+        .media-thumbnail {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .media-info {
+            padding: 1.5rem;
+        }
+        
+        .media-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #f8fafc;
+        }
+        
+        .media-description {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        
+        .media-type {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .video-type {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+        
+        .image-type {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        
+        /* 媒体查看器 */
+        .media-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .media-viewer.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .viewer-content {
+            max-width: 90%;
+            max-height: 80%;
+            position: relative;
+        }
+        
+        .viewer-content img, 
+        .viewer-content video {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .media-title-viewer {
+            margin-top: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+            color: white;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #f87171;
+            transform: scale(1.1);
+        }
+        
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .home-btn span {
+                display: none;
+            }
+            
+            .home-btn {
+                padding: 0.7rem;
+            }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .media-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .media-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-play-circle logo-icon"></i>
+            <h1>105看片</h1>
+        </div>
+        <div class="nav-controls">
+            <button class="home-btn" id="homeBtn" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i>
+                <span>返回主页</span>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- 主要内容区 -->
+    <div class="container">
+        <h2 class="page-title">欢迎访问105看片网站</h2>
+        
+        <div class="media-grid" id="mediaGrid">
+            <!-- 媒体卡片将通过JavaScript动态生成 -->
+        </div>
+    </div>
+    
+    <!-- 媒体查看器 -->
+    <div class="media-viewer" id="mediaViewer">
+        <button class="close-btn" id="closeViewer">&times;</button>
+        <div class="viewer-content" id="viewerContent">
+            <!-- 这里将显示视频或图片 -->
+        </div>
+        <h3 class="media-title-viewer" id="viewerTitle"></h3>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>© 2025-2026 LYZ</p>
+    </footer>
+
+    <script>
+        // 媒体数据
+        const mediaItems = [
+            {
+                id: 1,
+                title: "20260108",
+                description: "刘昶&柳辰夕",
+                type: "video",
+                thumbnail: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                source: "https://assets.mixkit.co/videos/preview/mixkit-mountains-and-a-lake-42281-large.mp4"
+            },
+            {
+                id: 2,
+                title: "城市夜景",
+                description: "繁华都市的璀璨夜景，灯光与建筑的完美融合",
+                type: "image",
+                thumbnail: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+                source: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+            },
+        ];
+        
+        // DOM元素
+        const mediaGrid = document.getElementById('mediaGrid');
+        const mediaViewer = document.getElementById('mediaViewer');
+        const viewerContent = document.getElementById('viewerContent');
+        const viewerTitle = document.getElementById('viewerTitle');
+        const closeViewer = document.getElementById('closeViewer');
+        const homeBtn = document.getElementById('homeBtn');
+        
+        // 生成媒体卡片
+        function renderMediaCards() {
+            mediaGrid.innerHTML = '';
+            
+            mediaItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.dataset.id = item.id;
+                
+                const typeClass = item.type === 'video' ? 'video-type' : 'image-type';
+                const typeText = item.type === 'video' ? '视频' : '图片';
+                
+                card.innerHTML = `
+                    <img src="${item.thumbnail}" alt="${item.title}" class="media-thumbnail">
+                    <div class="media-info">
+                        <h3 class="media-title">${item.title}</h3>
+                        <p class="media-description">${item.description}</p>
+                        <span class="media-type ${typeClass}">${typeText}</span>
+                    </div>
+                `;
+                
+                card.addEventListener('click', () => openMediaViewer(item));
+                mediaGrid.appendChild(card);
+            });
+        }
+        
+        // 打开媒体查看器
+        function openMediaViewer(item) {
+            viewerContent.innerHTML = '';
+            viewerTitle.textContent = item.title;
+            
+            if (item.type === 'video') {
+                const video = document.createElement('video');
+                video.src = item.source;
+                video.controls = true;
+                video.autoplay = true;
+                video.className = 'media-fullscreen';
+                viewerContent.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = item.source;
+                img.alt = item.title;
+                viewerContent.appendChild(img);
+            }
+            
+            mediaViewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // 关闭媒体查看器
+        function closeMediaViewer() {
+            mediaViewer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // 停止视频播放
+            const video = viewerContent.querySelector('video');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+        }
+        
+        // 返回主页功能
+        function goToHome() {
+            // 如果查看器是打开的，先关闭它
+            if (mediaViewer.classList.contains('active')) {
+                closeMediaViewer();
+            }
+            
+            // 平滑滚动到顶部
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            // 显示一个提示（在实际应用中可能不需要）
+            homeBtn.innerHTML = '<i class="fas fa-check"></i><span>已返回主页</span>';
+            setTimeout(() => {
+                homeBtn.innerHTML = '<i class="fas fa-home"></i><span>返回主页</span>';
+            }, 1500);
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMediaCards();
+            
+            // 事件监听
+            closeViewer.addEventListener('click', closeMediaViewer);
+            mediaViewer.addEventListener('click', (e) => {
+                if (e.target === mediaViewer) {
+                    closeMediaViewer();
+                }
+            });
+            
+            homeBtn.addEventListener('click', goToHome);
+            
+            // 添加键盘支持
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mediaViewer.classList.contains('active')) {
+                    closeMediaViewer();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

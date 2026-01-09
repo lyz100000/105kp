@@ -64,6 +64,35 @@
             color: transparent;
         }
         
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(76, 201, 240, 0.1);
+            color: #4cc9f0;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(76, 201, 240, 0.2);
+        }
+        
+        .nav-btn:hover {
+            background: rgba(76, 201, 240, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.2);
+        }
+        
+        .media-library-btn i {
+            font-size: 18px;
+        }
+        
         /* 标题区域 */
         .hero {
             text-align: center;
@@ -205,6 +234,12 @@
                 <div class="logo">
                     <i class="fas fa-film logo-icon"></i>
                     <span class="logo-text">105看片</span>
+                </div>
+                <div class="nav-buttons">
+                    <a href="./media.html" class="nav-btn media-library-btn">
+                        <i class="fas fa-photo-video"></i>
+                        <span>媒体库</span>
+                    </a>
                 </div>
             </div>
         </div>
